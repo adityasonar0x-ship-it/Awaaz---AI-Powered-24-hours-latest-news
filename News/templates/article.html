@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ dossier.editorial_headline or article.title }} | आवाज</title>
+  
+  <!-- App Icon: Hindi Aa -->
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+  <link rel="apple-touch-icon" href="/static/favicon.svg">
+
+  <!-- Clean, High-Contrast Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400&family=Noto+Serif+Devanagari:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="/static/css/newspaper.css">
+</head>
+<body class="theme-paper">
+
+  <!-- Top Announcement & Theme Bar -->
+  <div class="top-utility-bar">
+    <div class="top-utility-inner">
+      <div class="reset-badge">
+        <span class="pulse-indicator"></span>
+        <span class="reset-text">Resets every 24 hours</span>
+      </div>
+
+      <div class="top-utility-right">
+        <span class="top-date-str" id="article-time-stamp"></span>
+        
+        <!-- Language Switcher: English, Hindi, Marathi, Gujarati, Spanish -->
+        <div class="lang-selector-pill">
+          <i class="fa-solid fa-language"></i>
+          <select id="lang-switcher" class="lang-select" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="mr">मराठी</option>
+            <option value="gu">ગુજરાતી</option>
+            <option value="es">Español</option>
+          </select>
+        </div>
+
+        <a href="/" class="btn-back-link">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Front Page</span>
+        </a>
+        <button class="icon-btn" id="btn-theme-toggle" title="Toggle High-Contrast Dark / Soft Paper Mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live 24-Hour Continuous Sliding Marquee (Petrol, Diesel, Gold, Silver, Crude, Equities) -->
+  <div class="market-ribbon-bar" id="market-ribbon-bar">
+    <div class="market-ribbon-inner">
+      <div class="market-ribbon-badge">
+        <span class="live-pulse-dot"></span>
+        <span class="market-ribbon-label">LIVE RATES (15S)</span>
+      </div>
+      <div class="marquee-viewport">
+        <div class="marquee-track" id="marquee-track">
+          <span class="ticker-item"><strong class="ticker-sym">PETROL</strong> ₹94.72 /L <span class="ticker-delta pos">0.00%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">DIESEL</strong> ₹87.62 /L <span class="ticker-delta pos">0.00%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">GOLD 24K</strong> ₹78,850 /10g <span class="ticker-delta pos">+0.45%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">SILVER</strong> ₹92,400 /kg <span class="ticker-delta pos">+0.80%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">NIFTY 50</strong> ₹23,146.15 <span class="ticker-delta pos">+0.65%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">SENSEX</strong> ₹74,729.27 <span class="ticker-delta pos">+0.56%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">BRENT CRUDE</strong> $109.86 /bbl <span class="ticker-delta pos">+3.72%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">USD / INR</strong> ₹94.96 <span class="ticker-delta neg">-0.20%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">NASDAQ</strong> $26,140.03 <span class="ticker-delta neg">-2.07%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">S&P 500</strong> $7,659.44 <span class="ticker-delta neg">-0.77%</span></span>
+          <span class="ticker-item"><strong class="ticker-sym">BITCOIN</strong> $81,391.33 <span class="ticker-delta neg">-0.13%</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Centered Masthead: Logo Middle of the Screen (No Slogan) -->
+  <header class="masthead-center-section article-mode">
+    <div class="masthead-center-inner">
+      <a href="/" class="center-brand-anchor">
+        <div class="center-brand-seal">आ</div>
+        <h1 class="center-brand-logo">आवाज</h1>
+      </a>
+    </div>
+  </header>
+
+  <!-- Full-Screen Article Experience (Covers Whole Screen) -->
+  <main class="article-fullscreen-wrapper">
+    <article class="article-fullscreen-card">
+      
+      <!-- Article Header Meta -->
+      <div class="article-meta-row">
+        <div class="meta-tags-left">
+          <span class="tag-region {% if article.region == 'India' %}india{% else %}worldwide{% endif %}">
+            {% if article.region == 'India' %}🇮🇳 India{% else %}🌐 Worldwide{% endif %}
+          </span>
+          <span class="tag-cat {% if article.is_social %}social{% elif article.category == 'Technology' %}tech{% else %}business{% endif %}">
+            {% if article.is_social %}Social Pulse{% else %}{{ article.category }}{% endif %}
+          </span>
+          <span class="tag-source">{{ article.source }}</span>
+        </div>
+        <span class="meta-time"><i class="fa-regular fa-clock"></i> {{ article.published_ago }} (Verified 24H)</span>
+      </div>
+
+      <!-- Audio Voice Briefing ("आवाज" Speaker) -->
+      <div class="audio-briefing-bar" id="audio-briefing-bar">
+        <div class="audio-briefing-left">
+          <div class="audio-briefing-icon-box">
+            <i class="fa-solid fa-volume-high audio-pulse-icon" id="tts-icon"></i>
+          </div>
+          <div class="audio-briefing-text">
+            <strong class="audio-briefing-title" id="tts-label">Listen to Editorial Briefing</strong>
+            <span class="audio-briefing-status" id="tts-status">AI Investigative voice readout • 1.05x speed</span>
+          </div>
+        </div>
+        <div class="audio-briefing-controls">
+          <button class="audio-ctrl-btn primary" id="btn-tts-play" title="Play Briefing">
+            <i class="fa-solid fa-play"></i> <span id="tts-play-text">Listen</span>
+          </button>
+          <button class="audio-ctrl-btn" id="btn-tts-stop" title="Stop Briefing" style="display:none;">
+            <i class="fa-solid fa-stop"></i> <span>Stop</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Master Full-Screen Headline -->
+      <h1 class="article-hero-headline">{{ dossier.editorial_headline or article.title }}</h1>
+
+      <!-- Byline & Reading Time -->
+      <div class="article-byline-strip">
+        <span class="byline-name"><i class="fa-solid fa-signature"></i> {{ dossier.byline or "Chief Worldwide Correspondent, आवाज Bureau" }}</span>
+        <span class="byline-read"><i class="fa-regular fa-book-open"></i> {{ dossier.reading_time_mins or 4 }} min deep read</span>
+      </div>
+
+      <!-- Executive Verdict Box -->
+      <div class="article-verdict-box">
+        <span class="verdict-tag">The Executive Verdict</span>
+        <p class="verdict-text">{{ dossier.lead_verdict or article.summary }}</p>
+      </div>
+
+      <!-- Article In-Depth Body -->
+      <div class="article-body-flow">
+        
+        <!-- Pillar 1: What Transpired -->
+        <section class="story-pillar">
+          <h2 class="pillar-title">What Transpired in the Past 24 Hours</h2>
+          <p class="pillar-prose">{{ dossier.what_transpired }}</p>
+        </section>
+
+        <!-- Pillar 2: In-Depth Investigation -->
+        <section class="story-pillar">
+          <h2 class="pillar-title">Investigative Dissection & Global Context</h2>
+          <p class="pillar-prose">{{ dossier.in_depth_analysis }}</p>
+        </section>
+
+        <!-- Pillar 3: Macroeconomic Stakes -->
+        <section class="story-pillar">
+          <h2 class="pillar-title">Macroeconomic & Technology Stakes</h2>
+          <p class="pillar-prose">{{ dossier.market_and_economic_impact }}</p>
+        </section>
+
+        <!-- Original Source Attribution Box -->
+        <div class="wire-source-card-inline">
+          <div class="wire-source-info">
+            <span class="wire-source-label"><i class="fa-solid fa-globe"></i> Original Wire Dispatch:</span>
+            <strong class="wire-source-name">{{ article.source }} ({{ article.region or 'Worldwide Wire' }})</strong>
+          </div>
+          {% if article.url %}
+          <a href="{{ article.url }}" target="_blank" rel="noopener" class="wire-direct-link">
+            Consult Original Wire Dispatch <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+          {% endif %}
+        </div>
+
+      </div>
+
+      <!-- Bottom Return Navigation -->
+      <div class="article-bottom-bar">
+        <a href="/" class="btn-back-link large">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Return to Front Page</span>
+        </a>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Slim Executive Footer -->
+  <footer class="app-footer-slim">
+    <div class="footer-slim-inner">
+      <div class="footer-slim-brand">
+        <div class="footer-slim-seal">आ</div>
+        <span class="footer-slim-title">आवाज</span>
+      </div>
+      
+      <!-- Mandatory User Disclaimer -->
+      <div class="footer-slim-disclaimer">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>AI can make mistakes, so double verify each news.</span>
+      </div>
+
+      <div class="footer-slim-sonar">
+        Product of <strong>THE SONAR</strong>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---- Helpers ----
+    function escHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // ---- Live Indian Time (Kolkata timezone) ----
+    function updateLiveKolkataTime() {
+      const el = document.getElementById("article-time-stamp");
+      if (!el) return;
+      try {
+        const options = {
+          timeZone: 'Asia/Kolkata',
+          weekday: 'long',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        };
+        const formatter = new Intl.DateTimeFormat('en-IN', options);
+        el.innerHTML = `<i class="fa-regular fa-clock"></i> ${formatter.format(new Date())} IST`;
+      } catch (e) {}
+    }
+    updateLiveKolkataTime();
+    setInterval(updateLiveKolkataTime, 5000);
+
+    // ---- Live Market Marquee (15s refresh) ----
+    async function updateArticleMarquee() {
+      const track = document.getElementById("marquee-track");
+      if (!track) return;
+      try {
+        const res = await fetch("/api/markets");
+        const data = await res.json();
+        if (data.success && data.indices) {
+          const itemsHtml = data.indices.map(idx => `
+            <span class="ticker-item">
+              <strong class="ticker-sym">${escHtml(idx.name)}</strong>
+              ${escHtml(idx.currency)}${escHtml(idx.price)}
+              <span class="ticker-delta ${idx.is_positive ? 'pos' : 'neg'}">${escHtml(idx.change_pct)}</span>
+            </span>
+          `).join("");
+          // Duplicate for seamless infinite loop (CSS translateX(-50%))
+          track.innerHTML = itemsHtml + itemsHtml;
+        }
+      } catch (e) {}
+    }
+    updateArticleMarquee();
+    setInterval(updateArticleMarquee, 15000);
+
+    // ---- Theme Toggle (restore icon correctly) ----
+    const btnThemeToggle = document.getElementById("btn-theme-toggle");
+    const saved = localStorage.getItem("aawaaz_theme") || "paper";
+    if (saved === "dark") {
+      document.body.classList.add("theme-dark");
+      if (btnThemeToggle) btnThemeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    } else {
+      if (btnThemeToggle) btnThemeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+    }
+    if (btnThemeToggle) {
+      btnThemeToggle.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("theme-dark");
+        localStorage.setItem("aawaaz_theme", isDark ? "dark" : "paper");
+        btnThemeToggle.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+      });
+    }
+  </script>
+  <script src="/static/js/language.js"></script>
+  <script src="/static/js/speech.js"></script>
+</body>
+</html>
