@@ -1,0 +1,20 @@
+{
+  "name": "awaaz-news",
+  "version": "1.0.0",
+  "description": "आवाज - AI-Powered 24-hours latest news. Product of THE SONAR",
+  "scripts": {
+    "dev": "python app.py",
+    "start": "python app.py"
+  },
+  "keywords": [
+    "news",
+    "ai",
+    "flask",
+    "vercel"
+  ],
+  "author": "THE SONAR",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}
